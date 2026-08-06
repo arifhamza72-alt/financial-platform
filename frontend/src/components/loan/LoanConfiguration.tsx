@@ -8,8 +8,19 @@ import PrepaymentAmountInput from './PrepaymentAmountInput'
 import PrepaymentFrequencyInput from './PrepaymentFrequencyInput'
 import PrepaymentEmiModeInput from './PrepaymentEmiModeInput'
 
+export type LoanConfiguration = {
+    loanAmount: number
+    interestRate: number
+    tenorYears: number
+    startDate: string
+    prepaymentEnabled: boolean
+    prepaymentAmount: number
+    prepaymentFrequency: string
+    prepaymentEmiMode: string
+}
+
 function LoanConfiguration() {
-    const [loan, setLoan] = useState({
+    const [loan, setLoan] = useState<LoanConfiguration>({
         loanAmount: 0,
         interestRate: 0,
         tenorYears: 0,
@@ -73,115 +84,115 @@ function LoanConfiguration() {
         setErrors(newErrors)
     }
 
-            return (
+    return (
+        <div>
+            <h2>Loan Configuration</h2>
+
+            <LoanAmountInput
+                value={loan.loanAmount}
+                onChange={(value) =>
+                    setLoan({
+                        ...loan,
+                        loanAmount: value,
+                    })
+                }
+            />
+
+            <p>Loan amount from parent: {loan.loanAmount}</p>
+
+            <InterestRateInput
+                value={loan.interestRate}
+                onChange={(value) =>
+                    setLoan({
+                        ...loan,
+                        interestRate: value,
+                    })
+                }
+            />
+
+            <p>Interest rate from parent: {loan.interestRate}</p>
+
+            <LoanTenorInput
+                value={loan.tenorYears}
+                onChange={(value) =>
+                    setLoan({
+                        ...loan,
+                        tenorYears: value,
+                    })
+                }
+            />
+
+            <p>Loan Tenor Years from parent: {loan.tenorYears}</p>
+
+            <LoanStartDateInput
+                value={loan.startDate}
+                onChange={(value) =>
+                    setLoan({
+                        ...loan,
+                        startDate: value,
+                    })
+                }
+            />
+
+            <p>Start Date from parent: {loan.startDate}</p>
+
+            <PrepaymentToggle
+                value={loan.prepaymentEnabled}
+                onChange={(value) =>
+                    setLoan({
+                        ...loan,
+                        prepaymentEnabled: value,
+                    })
+                }
+            />
+
+            <p>Prepayment from parent: {loan.prepaymentEnabled.toString()}</p>
+
+            {loan.prepaymentEnabled && (
                 <div>
-                    <h2>Loan Configuration</h2>
+                    <h3>Prepayment Details</h3>
 
-                    <LoanAmountInput
-                        value={loan.loanAmount}
+                    <PrepaymentAmountInput
+                        value={loan.prepaymentAmount}
                         onChange={(value) =>
                             setLoan({
                                 ...loan,
-                                loanAmount: value,
+                                prepaymentAmount: value
                             })
                         }
                     />
 
-                    <p>Loan amount from parent: {loan.loanAmount}</p>
+                    <p>prepaymentAmount from parent: {loan.prepaymentAmount}</p>
 
-                    <InterestRateInput
-                        value={loan.interestRate}
+                    <PrepaymentFrequencyInput
+                        value={loan.prepaymentFrequency}
                         onChange={(value) =>
                             setLoan({
                                 ...loan,
-                                interestRate: value,
+                                prepaymentFrequency: value,
                             })
                         }
                     />
 
-                    <p>Interest rate from parent: {loan.interestRate}</p>
+                    <p>prepaymentFrequency from parent: {loan.prepaymentFrequency}</p>
 
-                    <LoanTenorInput
-                        value={loan.tenorYears}
+                    <PrepaymentEmiModeInput
+                        value={loan.prepaymentEmiMode}
                         onChange={(value) =>
                             setLoan({
                                 ...loan,
-                                tenorYears: value,
+                                prepaymentEmiMode: value,
                             })
                         }
                     />
 
-                    <p>Loan Tenor Years from parent: {loan.tenorYears}</p>
-
-                    <LoanStartDateInput
-                        value={loan.startDate}
-                        onChange={(value) =>
-                            setLoan({
-                                ...loan,
-                                startDate: value,
-                            })
-                        }
-                    />
-
-                    <p>Start Date from parent: {loan.startDate}</p>
-
-                    <PrepaymentToggle
-                        value={loan.prepaymentEnabled}
-                        onChange={(value) =>
-                            setLoan({
-                                ...loan,
-                                prepaymentEnabled: value,
-                            })
-                        }
-                    />
-
-                    <p>Prepayment from parent: {loan.prepaymentEnabled.toString()}</p>
-
-                    {loan.prepaymentEnabled && (
-                        <div>
-                            <h3>Prepayment Details</h3>
-
-                            <PrepaymentAmountInput
-                                value={loan.prepaymentAmount}
-                                onChange={(value) =>
-                                    setLoan({
-                                        ...loan,
-                                        prepaymentAmount: value
-                                    })
-                                }
-                            />
-
-                            <p>prepaymentAmount from parent: {loan.prepaymentAmount}</p>
-
-                            <PrepaymentFrequencyInput
-                                value={loan.prepaymentFrequency}
-                                onChange={(value) =>
-                                    setLoan({
-                                        ...loan,
-                                        prepaymentFrequency: value,
-                                    })
-                                }
-                            />
-
-                            <p>prepaymentFrequency from parent: {loan.prepaymentFrequency}</p>
-
-                            <PrepaymentEmiModeInput
-                                value={loan.prepaymentEmiMode}
-                                onChange={(value) =>
-                                    setLoan({
-                                        ...loan,
-                                        prepaymentEmiMode: value,
-                                    })
-                                }
-                            />
-
-                            <p>prepaymentEmiMode from parent: {loan.prepaymentEmiMode}</p>
-                        </div>
-                    )}
-
-                    <button onClick={validateLoan}>Validate Loan</button>
+                    <p>prepaymentEmiMode from parent: {loan.prepaymentEmiMode}</p>
                 </div>
-            )
-        }
+            )}
 
-        export default LoanConfiguration
+            <button onClick={validateLoan}>Validate Loan</button>
+        </div>
+    )
+}
+
+export default LoanConfiguration
